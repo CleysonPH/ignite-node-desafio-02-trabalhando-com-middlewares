@@ -19,7 +19,14 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+  const { user } = request;
+  const userCanCreateTodo = user.pro || users.todos.length < 10;
+  if (!userCanCreateTodo) {
+    return response
+      .status(400)
+      .json({ error: "user cannot create more todos" });
+  }
+  return next();
 }
 
 function checksTodoExists(request, response, next) {
